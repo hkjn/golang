@@ -1,7 +1,6 @@
 golang
 =======
 
-
 [![](https://badge.imagelayers.io/hkjn/armv7l-golang:latest.svg)](https://imagelayers.io/?images=hkjn/armv7l-golang:latest 'Get your own badge on imagelayers.io')
 
 Repo golang holds the source files for the `hkjn/armv7l-golang` image.
