@@ -1,15 +1,11 @@
-# TODO(hkjn): Start from alpine, if they have an ARM image.
-FROM hkjn/armv7l-arch
+FROM hkjn/alpine
 
 MAINTAINER Henrik Jonsson <me@hkjn.me>
 
-RUN pacman -Syyu && \
-    pacman -S --noconfirm go git
-
+RUN apk add --no-cache go git ca-certificates && \
+    adduser -D go -s /bin/sh
 ENV GOPATH /home/go
 
-RUN useradd -m go && \
-    chmod -R 755 /usr/local/src
 USER go
 
 
