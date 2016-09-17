@@ -16,11 +16,6 @@ cp *.go "$BUILD_DIR/"
 }
 
 TAG="$DOCKER_USER/$DOCKER_IMAGE"
-echo "Building $TAG-build in $BUILD_DIR"
-docker build -t $TAG-build -f "$BUILD_DIR/Dockerfile.build" "$BUILD_DIR/"
-echo "Copying out fs from $TAG-build.."
-docker run --rm -it -v $(pwd):/build $TAG-build
-cp acme fs "$BUILD_DIR/"
 echo "Building $TAG in $BUILD_DIR"
 docker build -t $TAG "$BUILD_DIR/"
 NO_PUSH=${NO_PUSH:-""}
