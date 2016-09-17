@@ -7,8 +7,7 @@ DOCKER_IMAGE="golang"
 ARCH="$(uname -m)"
 BUILD_DIR="$(mktemp -d)"
 
-cp Dockerfile{,.build} "$BUILD_DIR/"
-cp *.go "$BUILD_DIR/"
+cp Dockerfile "$BUILD_DIR/"
 [[ $ARCH = "x86_64" ]] || {
   sed -i "s/FROM hkjn\//FROM hkjn\/$ARCH-/" "$BUILD_DIR/Dockerfile.build"
   sed -i "s/FROM hkjn\//FROM hkjn\/$ARCH-/" "$BUILD_DIR/Dockerfile"
