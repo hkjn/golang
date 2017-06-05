@@ -17,7 +17,6 @@ TAG="$DOCKER_USER/$DOCKER_IMAGE:$ARCH"
 
 echo "Building $TAG in $BUILD_DIR.."
 sed "s|ARG_FROM|${BASEIMAGE}|g" Dockerfile.in > $BUILD_DIR/Dockerfile
-cp *.patch "$BUILD_DIR/"
 docker build -t $TAG "$BUILD_DIR/"
 NO_PUSH=${NO_PUSH:-""}
 [[ "$NO_PUSH" ]] || docker push $TAG
