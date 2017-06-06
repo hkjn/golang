@@ -13,11 +13,22 @@ BASEIMAGES[armv7l]=hkjn/alpine:armv7l
 
 BASEIMAGE=${BASEIMAGES[$ARCH]}
 BUILD_DIR="$(mktemp -d)"
-TAG="$DOCKER_USER/$DOCKER_IMAGE:$ARCH"
+VERSIONS="
+1.7.6
+1.8.1
+1.8.2
+1.8.3
+tip
+"
 
-echo "Building $TAG in $BUILD_DIR.."
-sed "s|ARG_FROM|${BASEIMAGE}|g" Dockerfile.in > $BUILD_DIR/Dockerfile
-cp *.patch "$BUILD_DIR/"
-docker build -t $TAG "$BUILD_DIR/"
-NO_PUSH=${NO_PUSH:-""}
-[[ "$NO_PUSH" ]] || docker push $TAG
+for VERSION in $VERSIONS; do
+  TAG="$DOCKER_USER/$DOCKER_IMAGE:$ARCH-$VERSION"
+  echo "Building $TAG in $BUILD_DIR.."
+  sed "s|ARG_FROM|${BASEIMAGE}|g" Dockerfile.$VERSION > $BUILD_DIR/Dockerfile.$VERSION
+  cp *.patch "$BUILD_DIR/"
+  docker build -t $TAG -f $BUILD_DIR/Dockerfile.$VERSION $BUILD_DIR/
+  NO_PUSH=${NO_PUSH:-""}
+  [[ "$NO_PUSH" ]] || docker push $TAG
+done
+docker tag $DOCKER_USER/$DOCKER_IMAGE:$ARCH-1.8.3 $DOCKER_USER/$DOCKER_IMAGE:$ARCH
+[[ "$NO_PUSH" ]] || docker push $DOCKER_USER/$DOCKER_IMAGE:$ARCH
