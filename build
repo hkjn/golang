@@ -1,19 +1,19 @@
 #!/bin/bash
 set -euo pipefail
 
-DOCKER_USER="hkjn"
-DOCKER_IMAGE="golang"
+declare DOCKER_USER="hkjn"
+declare DOCKER_IMAGE="golang"
 
-ARCH="$(uname -m)"
-BUILD_DIR="$(mktemp -d)"
+declare ARCH="$(uname -m)"
+declare BUILD_DIR="$(mktemp -d)"
 
 declare -A BASEIMAGES
 BASEIMAGES[x86_64]=hkjn/alpine:x86_64
 BASEIMAGES[armv7l]=hkjn/alpine:armv7l
 
-BASEIMAGE=${BASEIMAGES[$ARCH]}
-BUILD_DIR="$(mktemp -d)"
-VERSIONS="
+declare BASEIMAGE=${BASEIMAGES[$ARCH]}
+declare BUILD_DIR="$(mktemp -d)"
+declare VERSIONS="
 1.7.6
 1.8.1
 1.8.2
