@@ -3,8 +3,8 @@ FROM ARG_FROM
 LABEL maintainer="Henrik Jonsson <me@hkjn.me>"
 
 RUN set -eux && \
-    apk add --no-cache ca-certificates git && \
-    apk add --no-cache --virtual .build-deps bash gcc musl-dev openssl go && \
+    apk add --no-cache ca-certificates git musl-dev && \
+    apk add --no-cache --virtual .build-deps bash gcc openssl go && \
     export GOROOT_BOOTSTRAP="$(go env GOROOT)" && \
     cd /usr/local/ && \
     git clone https://github.com/golang/go.git && \

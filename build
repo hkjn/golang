@@ -14,9 +14,6 @@ BASEIMAGES[armv7l]=hkjn/alpine:armv7l
 declare BASEIMAGE=${BASEIMAGES[$ARCH]}
 declare BUILD_DIR="$(mktemp -d)"
 declare VERSIONS="
-1.7.6
-1.8.1
-1.8.2
 1.8.3
 tip
 "
