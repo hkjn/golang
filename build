@@ -15,6 +15,7 @@ declare BASEIMAGE=${BASEIMAGES[$ARCH]}
 declare BUILD_DIR="$(mktemp -d)"
 declare VERSIONS="
 1.8.3
+1.9
 tip
 "
 
