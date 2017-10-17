@@ -1,32 +1,31 @@
-#!/bin/bash
 set -euo pipefail
 
 declare DOCKER_USER="hkjn"
 declare DOCKER_IMAGE="golang"
-
-declare ARCH="$(uname -m)"
-declare BUILD_DIR="$(mktemp -d)"
-
-declare -A BASEIMAGES
-BASEIMAGES[x86_64]=hkjn/alpine:x86_64
-BASEIMAGES[armv7l]=hkjn/alpine:armv7l
-
-declare BASEIMAGE=${BASEIMAGES[$ARCH]}
-declare BUILD_DIR="$(mktemp -d)"
+declare CPU_ARCH="$(uname -m)"
 declare VERSIONS="
 1.8.3
 1.9
 tip
 "
+declare NO_PUSH=${NO_PUSH:-""}
+declare -A DOCKER_ARCHS
 
-for VERSION in $VERSIONS; do
-  TAG="$DOCKER_USER/$DOCKER_IMAGE:$ARCH-$VERSION"
-  echo "Building $TAG in $BUILD_DIR.."
-  sed "s|ARG_FROM|${BASEIMAGE}|g" Dockerfile.$VERSION > $BUILD_DIR/Dockerfile.$VERSION
-  cp *.patch "$BUILD_DIR/"
-  docker build -t $TAG -f $BUILD_DIR/Dockerfile.$VERSION $BUILD_DIR/
-  NO_PUSH=${NO_PUSH:-""}
-  [[ "$NO_PUSH" ]] || docker push $TAG
+DOCKER_ARCHS["x86_64"]="amd64"
+DOCKER_ARCHS["armv7l"]="arm"
+
+declare DOCKER_ARCH=${DOCKER_ARCHS[${CPU_ARCH}]}
+
+if [[ ! ${DOCKER_ARCH} ]]; then
+	echo "FATAL: Unsupported CPU arch ${CPU_ARCH}." >&2
+        exit 1
+fi
+
+for VERSION in ${VERSIONS}; do
+  TAG="${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}-${VERSION}"
+  echo "Building ${DOCKER_ARCH}.."
+  docker build -t ${TAG} -f Dockerfile.${VERSION} .
+  [[ "$NO_PUSH" ]] || docker push ${TAG}
 done
-docker tag $DOCKER_USER/$DOCKER_IMAGE:$ARCH-1.8.3 $DOCKER_USER/$DOCKER_IMAGE:$ARCH
-[[ "$NO_PUSH" ]] || docker push $DOCKER_USER/$DOCKER_IMAGE:$ARCH
+docker tag ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}-1.9 ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}
+[[ "${NO_PUSH}" ]] || docker push ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}
