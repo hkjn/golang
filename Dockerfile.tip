@@ -1,6 +1,4 @@
-FROM ARG_FROM
-
-LABEL maintainer="Henrik Jonsson <me@hkjn.me>"
+FROM hkjn/alpine
 
 RUN set -eux && \
     apk add --no-cache ca-certificates git musl-dev && \

@@ -5,7 +5,7 @@ declare DOCKER_IMAGE="golang"
 declare CPU_ARCH="$(uname -m)"
 declare VERSIONS="
 1.8.3
-1.9
+1.9.1
 tip
 "
 declare NO_PUSH=${NO_PUSH:-""}

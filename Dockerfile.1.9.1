@@ -1,10 +1,8 @@
 FROM hkjn/alpine
 
-LABEL maintainer="Henrik Jonsson <me@hkjn.me>"
-
-ENV GOLANG_VERSION=1.9
+ENV GOLANG_VERSION=1.9.1
 ENV GOLANG_SRC_URL=https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz \
-    GOLANG_SRC_SHA256=a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993
+    GOLANG_SRC_SHA256=a84afc9dc7d64fe0fa84d4d735e2ece23831a22117b50dafc75c1484f1cb550e
 
 RUN set -eux && \
     apk add --no-cache ca-certificates git musl-dev && \
