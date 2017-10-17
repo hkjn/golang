@@ -23,7 +23,7 @@ fi
 
 for VERSION in ${VERSIONS}; do
 	TAG="${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}-${VERSION}"
-	echo "Building ${DOCKER_ARCH}.."
+	echo "Building ${TAG}.."
 	docker build -t ${TAG} -f Dockerfile.${VERSION} .
 done
 
@@ -43,5 +43,8 @@ if ! which manifest-tool 1>/dev/null; then
 fi
 echo "Pushing multi-arch manifests.."
 for VERSION in ${VERSIONS}; do
-	manifest-tool push from-args --platforms linux/amd64,linux/arm --template hkjn/golang:ARCH-${VERSION} --target hkjn/golang:${VERSION}
+	docker run -v $HOME/.docker:/home/go/.docker:ro --rm hkjn/manifest-tool \
+	       push from-args --platforms linux/amd64,linux/arm \
+	                      --template ${DOCKER_USER}/${DOCKER_IMAGE}:ARCH-${VERSION} \
+	                      --target ${DOCKER_USER}/${DOCKER_IMAGE}:${VERSION}
 done
