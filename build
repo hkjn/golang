@@ -37,10 +37,6 @@ if [[ ! "${NO_PUSH}" ]]; then
 	docker push ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}
 fi
 
-if ! which manifest-tool 1>/dev/null; then
-	echo "FATAL: No manifest-tool found on PATH, can't push multi-arch manifests." >&2
-	exit 1
-fi
 echo "Pushing multi-arch manifests.."
 for VERSION in ${VERSIONS}; do
 	docker run -v $HOME/.docker:/home/go/.docker:ro --rm hkjn/manifest-tool \
