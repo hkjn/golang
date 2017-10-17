@@ -16,6 +16,7 @@ RUN set -eux && \
     ./make.bash && \
     apk del .build-deps && \
     adduser -D go -u 500 -g 500 -s /bin/bash && \
+    mkdir -p /home/go/src && \
     chown -R go:go /usr/local/go/
 
 ENV GOPATH /home/go
