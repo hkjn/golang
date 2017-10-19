@@ -5,7 +5,7 @@ ENV GOLANG_SRC_URL=https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz \
     GOLANG_SRC_SHA256=a84afc9dc7d64fe0fa84d4d735e2ece23831a22117b50dafc75c1484f1cb550e
 
 RUN set -eux && \
-    apk add --no-cache ca-certificates git musl-dev && \
+    apk add --no-cache ca-certificates git libcap musl-dev && \
     apk add --no-cache --virtual .build-deps bash gcc openssl go && \
     export GOROOT_BOOTSTRAP="$(go env GOROOT)" && \
     wget -q "$GOLANG_SRC_URL" -O golang.tar.gz && \

@@ -1,7 +1,7 @@
 FROM hkjn/alpine
 
 RUN set -eux && \
-    apk add --no-cache ca-certificates git musl-dev && \
+    apk add --no-cache ca-certificates git libcap musl-dev && \
     apk add --no-cache --virtual .build-deps bash gcc openssl go && \
     export GOROOT_BOOTSTRAP="$(go env GOROOT)" && \
     cd /usr/local/ && \
