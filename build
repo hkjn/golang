@@ -5,7 +5,7 @@ declare DOCKER_IMAGE="golang"
 declare CPU_ARCH="$(uname -m)"
 declare VERSIONS="
 1.8.3
-1.9.1
+1.9.2
 tip
 "
 declare NO_PUSH=${NO_PUSH:-""}
@@ -27,7 +27,7 @@ for VERSION in ${VERSIONS}; do
 	docker build -t ${TAG} -f Dockerfile.${VERSION} .
 done
 
-docker tag ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}-1.9.1 ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}
+docker tag ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}-1.9.2 ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_ARCH}
 
 if [[ ! "${NO_PUSH}" ]]; then
 	echo "Pushing images.."
