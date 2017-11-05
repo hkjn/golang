@@ -6,7 +6,8 @@ VERSION=undefined
 SHELL=/bin/bash
 
 .PHONY: pre-build docker-build post-build build	push do-push post-push
-
+.DEFAULT_GOAL := all
+all: build push
 build: pre-build docker-build post-build
 
 pre-build:

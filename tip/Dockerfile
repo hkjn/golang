@@ -7,7 +7,7 @@ RUN set -eux && \
     cd /usr/local/ && \
     git clone https://github.com/golang/go.git && \
     cd go/src && \
-    echo Building from commit: $(git show) && \
+    echo "Building from commit: $(git show)" && \
     ./make.bash && \
     apk del .build-deps && \
     adduser -D go -u 500 -g 500 -s /bin/bash && \
